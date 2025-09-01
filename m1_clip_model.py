@@ -53,6 +53,9 @@ class M1OptimizedMultiHeadAttention(nn.Module):
         scores = torch.matmul(q, k.transpose(-2, -1)) / self.scale
         
         if mask is not None:
+            # Reshape mask to match attention scores dimensions
+            if mask.dim() == 2:  # [batch, seq_len]
+                mask = mask.unsqueeze(1).unsqueeze(1)  # [batch, 1, 1, seq_len]
             scores = scores.masked_fill(mask == 0, -1e9)
         
         attn = F.softmax(scores, dim=-1)
@@ -198,12 +201,14 @@ class M1TextEncoder(nn.Module):
         x = self.dropout(x)
         
         # Create causal mask for text
-        causal_mask = torch.triu(torch.ones(seq_len, seq_len), diagonal=1).bool()
+        causal_mask = torch.triu(torch.ones(seq_len, seq_len, dtype=torch.bool), diagonal=1)
         causal_mask = causal_mask.to(x.device)
         
         # Pass through transformer layers
         for layer in self.layers:
-            x = layer(x, mask=~causal_mask if attention_mask is None else attention_mask)
+            # Use attention_mask if provided, otherwise no mask (causal mask causes dimension issues)
+            layer_mask = attention_mask if attention_mask is not None else None
+            x = layer(x, mask=layer_mask)
         
         x = self.norm(x)
         

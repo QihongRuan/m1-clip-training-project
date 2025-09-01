@@ -87,8 +87,8 @@ class M1CLIPTrainer:
         self.val_accuracies = []
         self.learning_rates = []
         
-        # JIT optimization for M1
-        self.model = torch.jit.script(self.model)
+        # JIT optimization for M1 (disabled for stability during first run)
+        # self.model = torch.jit.script(self.model)
         
         print(f"✅ CLIP trainer initialized:")
         print(f"   Model size: {model_size}")
