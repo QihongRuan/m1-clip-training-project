@@ -207,21 +207,9 @@ def main():
     
     print("\n" + "=" * 60)
     
-    # Step 2: Check if we should run GPU training test
-    user_choice = input("🤔 Run GPU training test? (10 epochs, ~10 minutes) [y/N]: ").lower().strip()
-    
-    if user_choice in ['y', 'yes']:
-        gpu_success = run_gpu_training_test()
-        
-        if gpu_success:
-            print("\n🎉 GPU training completed! Creating comparison...")
-            create_comparison_visualization()
-        else:
-            print("\n⚠️ GPU training failed, creating theoretical comparison...")
-            create_comparison_visualization()
-    else:
-        print("\n📊 Creating theoretical comparison based on benchmark...")
-        create_comparison_visualization()
+    # Step 2: Create comparison visualization
+    print("\n📊 Creating theoretical comparison based on benchmark...")
+    create_comparison_visualization()
     
     print("\n" + "=" * 60)
     print("🎯 COMPARISON SUMMARY:")
