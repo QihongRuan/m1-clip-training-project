@@ -1,0 +1,9 @@
+{
+  "final_train_loss": 1.893964085314009,
+  "final_val_loss": 5.246386289596558,
+  "final_train_acc": 0.22685185819864273,
+  "final_val_acc": 0.1250000037252903,
+  "best_val_acc": 0.1458333358168602,
+  "total_epochs": 15,
+  "model_parameters": 76736001
+}
